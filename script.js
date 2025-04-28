@@ -5,6 +5,8 @@ const listaTarefas = document.getElementById("listaTarefas")
 const inputTarefa = document.getElementById("inputTarefa")
 const campoMensagem = document.getElementById("mensagem")
 
+// Se listaDeTarefas estiver vazia
+
 function adicionarTarefa() {
     //recebe valor do input do usuário
     let tarefa = inputTarefa.value.trim()
@@ -38,8 +40,57 @@ function renderTarefas() {
     listaTarefas.innerHTML = "" // limpa a lista ul antes de adicionar a nova tarefa
     
     listaDeTarefas.forEach(tarefa => {
-        const novaTarefa = document.createElement("li")
-        novaTarefa.textContent = tarefa
-        listaTarefas.appendChild(novaTarefa)
-    })
+
+        listaTarefas.innerHTML += `
+        <div class="tarefa">
+        <li>
+        <span>${tarefa}</span>
+        </li>
+        <div class="area-botoes">
+        <button class="remover" onclick="removerTarefa('${tarefa}')">Remover</button>
+        <button class="editar" onclick="editarTarefa('${tarefa}')">Editar</button>
+        </div>
+        </div>
+        `
+    });
+}
+
+function removerTarefa(tarefa) {
+    //remove a tarefa do array
+    listaDeTarefas = listaDeTarefas.filter(item => item !== tarefa)
+    console.log(listaDeTarefas)
+    
+    //renderiza a lista novamente
+    renderTarefas()
+    
+    campoMensagem.textContent = "Tarefa removida com sucesso!"
+    campoMensagem.style.color = "green"
+}
+
+function editarTarefa(tarefa) {
+    //pega o valor do input
+    let novaTarefa = prompt("Digite a nova tarefa:", tarefa)
+    
+    //verifica se o input não está vazio
+    if (novaTarefa.trim() === "") {
+        campoMensagem.textContent = "Por favor, insira uma tarefa!"
+        campoMensagem.style.color = "red"
+        return
+    }
+    
+    //substitui a tarefa antiga pela nova
+    listaDeTarefas = listaDeTarefas.map(item => item === tarefa ? novaTarefa : item)
+    
+    //renderiza a lista novamente
+    renderTarefas()
+    
+    campoMensagem.textContent = "Tarefa editada com sucesso!"
+    campoMensagem.style.color = "green"
+}
+
+function limparLista() {
+    listaDeTarefas = []
+    listaTarefas.innerHTML = ""
+    campoMensagem.textContent = "Lista limpa com sucesso!"
+    campoMensagem.style.color = "green"
 }
