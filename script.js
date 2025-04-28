@@ -1,9 +1,14 @@
-function adicionarTarefa() {
+// array para armazenar as tarefas (declarado fora da função)
+let listaDeTarefas = []
 
+function adicionarTarefa() {
     //recebe valor do input do usuário
+    const listaTarefas = document.getElementById("listaTarefas")
     const inputTarefa = document.getElementById("inputTarefa")
-    let tarefa = inputTarefa.value.trim()
     const campoMensagem = document.getElementById("mensagem")
+    let tarefa = inputTarefa.value.trim()
+
+    listaTarefas.innerHTML = "" // limpa a lista antes de adicionar a nova tarefa
 
     //checa se o input está vazio
     if (tarefa === "") {
@@ -17,13 +22,15 @@ function adicionarTarefa() {
     const mensagem = "Tarefa adicionada com sucesso!"
     campoMensagem.textContent = mensagem
     campoMensagem.style.color = "green"
-
+    listaDeTarefas.push(tarefa) // adiciona a tarefa ao array
+    console.log(listaDeTarefas)
 
     //cria novo item (li) e insere na (lista ul)
-    const listaTarefas = document.getElementById("listaTarefas")
-    const novaTarefa = document.createElement("li")
-    novaTarefa.textContent = tarefa
-    listaTarefas.appendChild(novaTarefa)
+    listaDeTarefas.forEach(tarefa => {
+        const novaTarefa = document.createElement("li")
+        novaTarefa.textContent = tarefa
+        listaTarefas.appendChild(novaTarefa)
+    });
 
     //limpa o input do usuário
     inputTarefa.value = ""
